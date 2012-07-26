@@ -38,6 +38,7 @@ $facebook = new Facebook(array(
   'secret' => AppInfo::appSecret(),
 ));
 
+
 $user_id = $facebook->getUser();
 if ($user_id) {
   try {
@@ -69,6 +70,18 @@ if ($user_id) {
     'method' => 'fql.query',
     'query' => 'SELECT uid, name FROM user WHERE uid IN(SELECT uid2 FROM friend WHERE uid1 = me()) AND is_app_user = 1'
   ));
+}
+else{
+
+	 $app_url = 'http://apps.facebook.com/galing-sti-sw/';
+     $scope = 'user_about_me,user_likes,user_location,user_questions,user_relationships,publish_stream,publish_checkins,read_stream,manage_pages,manage_friendlists,email,publish_actions';
+     $loginUrl = $facebook->getLoginUrl(array(
+       'scope' => $scope,
+       'redirect_uri' => $app_url,
+     ));
+
+     print('<script> top.location.href=\'' . $loginUrl . '\'</script>');
+
 }
 
 // Fetch the basic info of the app that they are using
@@ -247,7 +260,7 @@ $app_name = idx($app_info, 'name', '');
     </header>
 
     <section id="get-started">
-      <p>AMF!!</p>
+      <p>Test!!</p>
       <a href="https://devcenter.heroku.com/articles/facebook" target="_top" class="button">Learn How to Edit This App</a>
     </section>
 
